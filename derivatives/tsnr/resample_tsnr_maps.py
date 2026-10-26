@@ -23,7 +23,7 @@ def main(ds_name, tsnr_path, fmriprep_path, smriprep_path=None, to_t1w=True, to_
 
 def resample_to_T1w(ds_name, tsnr_path, fmriprep_path):
     logger = logging.getLogger(__name__)
-    logger.info(f'generating tsnr maps from {Path(tsnr_path).name.split('.')[-1]} data for the {ds_name} dataset')
+    logger.info(f"generating tsnr maps from {Path(tsnr_path).name.split('.')[-1]} data for the {ds_name} dataset")
     logger.info(f"loading tSNR data: {tsnr_path}")
     layout_tsnr = bids.BIDSLayout(tsnr_path, validate=False, is_derivative=True)
 
@@ -38,8 +38,12 @@ def resample_to_T1w(ds_name, tsnr_path, fmriprep_path):
             'space': 'T1w',
             'stat': 'tsnr',
         })
+        if 'session' not in entities.keys():
+                entities.update({
+                    'session': None
+                })
 
-        pattern = pattern="sub-{subject}/ses-{session}/{datatype}/sub-{subject}_ses-{session}_task-{task}_run-{run}_space-{space}[_echo-{echo}]_stat-{stat}_desc-{desc}_{suffix}.nii.gz"
+        pattern = pattern="sub-{subject}[/ses-{session}]/{datatype}/sub-{subject}[_ses-{session}]_task-{task}_run-{run}_space-{space}[_echo-{echo}]_stat-{stat}_desc-{desc}_{suffix}.nii.gz"
         out_file = layout_tsnr.build_path(entities, pattern, validate=False)
 
         Path(out_file).parent.mkdir(parents=True, exist_ok=True)
@@ -97,7 +101,7 @@ def resample_to_T1w(ds_name, tsnr_path, fmriprep_path):
 
 def resample_to_MNI152(ds_name, tsnr_path, fmriprep_path, smriprep_path):
     logger = logging.getLogger(__name__)
-    logger.info(f'generating tsnr maps from {Path(tsnr_path).name.split('.')[-1]} data for the {ds_name} dataset')
+    logger.info(f"generating tsnr maps from {Path(tsnr_path).name.split('.')[-1]} data for the {ds_name} dataset")
     logger.info(f"loading tSNR data: {tsnr_path}")
     layout_tsnr = bids.BIDSLayout(tsnr_path, validate=False, is_derivative=True)
     subjects = layout_tsnr.get_subjects()
@@ -127,8 +131,12 @@ def resample_to_MNI152(ds_name, tsnr_path, fmriprep_path, smriprep_path):
                 'space': 'MNI152NLin2009cAsym',
                 'stat': 'tsnr',
             })
+            if 'session' not in entities.keys():
+                entities.update({
+                    'session': None
+                })
 
-            pattern = pattern="sub-{subject}/ses-{session}/{datatype}/sub-{subject}_ses-{session}_task-{task}_run-{run}_space-{space}[_echo-{echo}]_stat-{stat}_desc-{desc}_{suffix}.nii.gz"
+            pattern = pattern="sub-{subject}[/ses-{session}]/{datatype}/sub-{subject}[_ses-{session}]_task-{task}_run-{run}_space-{space}[_echo-{echo}]_stat-{stat}_desc-{desc}_{suffix}.nii.gz"
             out_file = layout_tsnr.build_path(entities, pattern, validate=False)
 
             Path(out_file).parent.mkdir(parents=True, exist_ok=True)
