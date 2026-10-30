@@ -43,7 +43,7 @@ def resample_to_T1w(ds_name, tsnr_path, fmriprep_path):
                     'session': None
                 })
 
-        pattern = pattern="sub-{subject}[/ses-{session}]/{datatype}/sub-{subject}[_ses-{session}]_task-{task}_run-{run}_space-{space}[_echo-{echo}]_stat-{stat}_desc-{desc}_{suffix}.nii.gz"
+        pattern = "sub-{subject}[/ses-{session}]/{datatype}/sub-{subject}[_ses-{session}]_task-{task}_run-{run}_space-{space}[_echo-{echo}]_stat-{stat}_desc-{desc}_{suffix}.nii.gz"
         out_file = layout_tsnr.build_path(entities, pattern, validate=False)
 
         Path(out_file).parent.mkdir(parents=True, exist_ok=True)
@@ -136,7 +136,7 @@ def resample_to_MNI152(ds_name, tsnr_path, fmriprep_path, smriprep_path):
                     'session': None
                 })
 
-            pattern = pattern="sub-{subject}[/ses-{session}]/{datatype}/sub-{subject}[_ses-{session}]_task-{task}_run-{run}_space-{space}[_echo-{echo}]_stat-{stat}_desc-{desc}_{suffix}.nii.gz"
+            pattern = "sub-{subject}[/ses-{session}]/{datatype}/sub-{subject}[_ses-{session}]_task-{task}_run-{run}_space-{space}[_echo-{echo}]_stat-{stat}_desc-{desc}_{suffix}.nii.gz"
             out_file = layout_tsnr.build_path(entities, pattern, validate=False)
 
             Path(out_file).parent.mkdir(parents=True, exist_ok=True)
